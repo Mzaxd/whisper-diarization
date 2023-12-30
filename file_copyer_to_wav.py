@@ -3,7 +3,7 @@ import shutil
 from mutagen.mp3 import MP3
 from pydub import AudioSegment
 
-source_dir = 'D:\\英语资料\\EnglishPod.365.Collective'
+source_dir = 'D:\\英语资料\\EnglishPod_v2.0\\EnglishPod.365.Collective'
 destination_dir = 'D:\\英语资料\\EnglishPod_v2.0\\audio'
 file_counter = 1  # 用于文件重命名的计数器
 

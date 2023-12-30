@@ -5,9 +5,9 @@ import time
 # 设置变量
 diarize_script = './diarize.py'
 audio_dir = 'D:\\英语资料\\EnglishPod_v2.0\\audio'
-venv_python = 'D:\\Code\\PythonProject\\whisper-diarization\\venv\\Scripts\\python'  # Windows路径
+venv_python = 'D:\\Code\\me\\whisper-diarization\\venv\\Scripts\\python'  # Windows路径
 total_files = len(os.listdir(audio_dir))
-whisper_model = 'medium.en'
+whisper_model = 'large-v2'
 suppress_numerals = True
 
 # 总执行时间和命令执行时间列表
@@ -19,7 +19,9 @@ task_start_time = time.time()
 print(f"Task started at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(task_start_time))}")
 
 end = 5
-audio_indices = [89]
+audio_indices = [23, 30, 31, 133, 139, 141, 147, 157, 161, 170, 174, 175, 181, 188, 200, 201, 207, 214, 215, 217, 220,
+                 221, 240, 247, 253, 264, 267, 280, 284, 287, 299, 302, 304, 315, 318, 320, 329, 341, 343, 349, 351,
+                 358, 359, 360]
 
 # 循环执行命令
 # for i in range(5, end + 1):
@@ -33,7 +35,8 @@ for i in audio_indices:
         venv_python, diarize_script,
         '-a', audio_file_path,
         '--whisper-model', whisper_model,
-        '--no-stem'
+        '--no-stem',
+        '--device', 'cuda'
     ]
     if suppress_numerals:
         command.append('--suppress_numerals')
