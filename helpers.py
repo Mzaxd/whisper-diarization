@@ -279,21 +279,78 @@ def format_timestamp(
     )
 
 
-def write_srt(transcript, file):
-    """
-    Write a transcript to a file in SRT format.
+def parse_timestamp(timestamp):
+    """将SRT时间戳格式转换为毫秒，或者直接返回毫秒时间戳"""
+    if isinstance(timestamp, str):
+        hours, minutes, seconds = timestamp.split(':')
+        seconds, milliseconds = seconds.split(',')
+        return int(hours) * 3600000 + int(minutes) * 60000 + int(seconds) * 1000 + int(milliseconds)
+    elif isinstance(timestamp, int):
+        # 如果timestamp已经是毫秒格式，则直接返回
+        return timestamp
+    else:
+        raise ValueError("Timestamp must be a string in SRT format or an integer.")
 
+
+def format_timestamp(milliseconds):
+    """将毫秒转换回SRT时间戳格式"""
+    hours, milliseconds = divmod(milliseconds, 3600000)
+    minutes, milliseconds = divmod(milliseconds, 60000)
+    seconds, milliseconds = divmod(milliseconds, 1000)
+    return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02},{int(milliseconds):03}"
+
+def write_srt(transcript, file, max_line_length=55):
     """
+    Write a transcript to a file in SRT format, with automatic line breaks
+    and adjusted timestamps for each line.
+    """
+
+    def split_line(text, total_duration, max_length):
+        if not text or total_duration == 0:
+            return [], []
+
+        words = text.split()
+        current_line = ""
+        lines = []
+        line_durations = []
+        current_duration = 0  # 在循环开始前初始化current_duration
+
+        duration_per_char = total_duration / len(text)
+
+        for word in words:
+            if len(current_line) + len(word) + 1 > max_length:
+                lines.append(current_line)
+                line_durations.append(current_duration)
+                current_line = word
+                current_duration = len(word) * duration_per_char
+            else:
+                current_line += " " + word if current_line else word
+                current_duration += (len(word) + 1) * duration_per_char
+
+        if current_line:  # 确保添加最后一行
+            lines.append(current_line)
+            line_durations.append(current_duration)
+
+        return lines, line_durations
+
     for i, segment in enumerate(transcript, start=1):
-        # write srt lines
-        print(
-            f"{i}\n"
-            f"{format_timestamp(segment['start_time'], always_include_hours=True, decimal_marker=',')} --> "
-            f"{format_timestamp(segment['end_time'], always_include_hours=True, decimal_marker=',')}\n"
-            f"{segment['speaker']}: {segment['text'].strip().replace('-->', '->')}\n",
-            file=file,
-            flush=True,
-        )
+        start_time = parse_timestamp(segment['start_time'])
+        end_time = parse_timestamp(segment['end_time'])
+        segment_duration = end_time - start_time
+        lines, line_durations = split_line(segment['text'].strip().replace('-->', '->'), segment_duration, max_line_length)
+
+        current_start_time = start_time
+        for line, duration in zip(lines, line_durations):
+            current_end_time = current_start_time + duration
+
+            # Print SRT segment
+            print(
+                f"{format_timestamp(current_start_time)} --> {format_timestamp(current_end_time)}\n"
+                f"{segment['speaker']}: {line}\n",
+                file=file
+            )
+
+            current_start_time += duration
 
 
 def find_numeral_symbol_tokens(tokenizer):
