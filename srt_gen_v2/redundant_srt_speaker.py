@@ -1,3 +1,6 @@
+import os
+
+
 def remove_redundant_speakers(srt_text):
     # Split the text into lines
     lines = srt_text.strip().split('\n')
@@ -39,6 +42,18 @@ def process_srt_file(file_path):
     return "File processed and saved at: " + file_path
 
 
-# 替换为您的文件路径
-file_path = 'D:\\英语资料\\EnglishPod_v3.0\\audio\\018.srt'
-process_srt_file(file_path)
+def process_srt_files_in_directory(directory_path):
+    # 遍历目录中的所有文件
+    for filename in os.listdir(directory_path):
+        # 检查文件扩展名是否为.srt
+        if filename.endswith('.srt'):
+            # 构造完整的文件路径
+            file_path = os.path.join(directory_path, filename)
+            # 处理文件
+            process_srt_file(file_path)
+            print(f"Processed file: {file_path}")
+
+
+# 替换为您的目录路径
+directory_path = 'D:\\英语资料\\EnglishPod_v3.0\\source'
+process_srt_files_in_directory(directory_path)

@@ -21,7 +21,6 @@ def replace_speaker_names(text, speaker_names):
 
 # 从API获取说话人名字的映射
 def get_speaker_names(file_content):
-    # API_URL = "https://flowise.elizaveta.top:700/api/v1/prediction/c4613542-0bde-4564-8bf1-be8d74b317cc"
     API_URL = "https://flowise.elizaveta.top:700/api/v1/prediction/797ea971-3f6e-4d04-9014-4cdfec70248d"
     payload = {"question": file_content}
     response = requests.post(API_URL, json=payload)
@@ -43,8 +42,8 @@ def get_speaker_names(file_content):
 
 
 # 指定处理的文件范围
-start_file_number = 19
-end_file_number = 200
+start_file_number = 1
+end_file_number = 17
 
 file_indices = []
 
