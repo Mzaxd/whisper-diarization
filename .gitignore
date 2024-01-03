@@ -5,4 +5,4 @@ __pycache__/
 *.mp3
 .idea/
 venv/
-
+audio_fix/pretrained_models/

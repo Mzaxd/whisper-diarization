@@ -24,7 +24,7 @@ audio_indices = [23, 30, 31, 133, 139, 141, 147, 157, 161, 170, 174, 175, 181, 1
                  358, 359, 360]
 
 # 循环执行命令
-for i in range(98, end + 1):
+for i in range(346, end + 1):
 # for i in audio_indices:
     # 构建音频文件名
     audio_file_name = f"{i:03d}.wav"

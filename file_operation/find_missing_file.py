@@ -1,6 +1,6 @@
 import os
 
-srt_dir = 'D:\\英语资料\\EnglishPod_v2.0\\target'  # .srt文件所在的文件夹路径
+srt_dir = 'D:\\英语资料\\EnglishPod_v3.0\\target'  # .srt文件所在的文件夹路径
 
 start_range = 1
 end_range = 365

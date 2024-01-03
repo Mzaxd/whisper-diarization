@@ -42,14 +42,14 @@ def get_speaker_names(file_content):
 
 
 # 指定处理的文件范围
-start_file_number = 1
-end_file_number = 17
+start_file_number = 201
+end_file_number = 365
 
-file_indices = []
+file_indices = [218, 348]
 
 # 格式化文件名，并遍历指定范围内的文件编号
 for file_number in range(start_file_number, end_file_number + 1):
-    # for file_number in file_indices:
+# for file_number in file_indices:
     file_base_name = f"{file_number:03}"  # 文件名格式为001, 002, ... 100
     txt_file_name = file_base_name + ".txt"
     txt_file_path = os.path.join(source_dir, txt_file_name)
@@ -85,4 +85,4 @@ for file_number in range(start_file_number, end_file_number + 1):
         else:
             print(f"Failed to retrieve speaker names for {txt_file_name}.")
 
-    time.sleep(3)
+    time.sleep(1)
