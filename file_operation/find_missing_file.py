@@ -8,7 +8,7 @@ end_range = 365
 missing_files = []  # 存放缺失文件索引的列表
 
 for i in range(start_range, end_range + 1):
-    expected_file = f"{i:03d}.srt"
+    expected_file = f"{i:03d}.mp4"
     if not os.path.exists(os.path.join(srt_dir, expected_file)):
         missing_files.append(i)  # 仅存储索引
 

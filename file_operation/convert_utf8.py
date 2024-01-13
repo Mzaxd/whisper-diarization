@@ -34,5 +34,5 @@ def convert_to_utf8(source_folder):
                     print(f"Error converting {file_name}: {e}")
 
 # Example usage
-source_folder = 'D:\\英语资料\\EnglishPod_v3.0\\target'  # Replace with your folder path
+source_folder = r'D:\英语资料\EnglishPod_v3.0\target-fix'  # Replace with your folder path
 convert_to_utf8(source_folder)

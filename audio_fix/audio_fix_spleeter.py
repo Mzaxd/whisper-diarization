@@ -15,7 +15,7 @@ def main():
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
-    tf.config.list_physical_devices('GPU')
     print('GPU加速可用:')
     print(tf.test.is_gpu_available())
     main()
+    tf.config.list_physical_devices('GPU')
